@@ -5,7 +5,23 @@ export const locations = [
     tideSite: 'concarneau',
     lat: 47.8904,
     lon: -4.0133,
-    cameraIds: ['cap-coz', 'beg-meil', 'ile-saint-nicolas', 'mousterlin'],
+    cameraIds: ['cap-coz', 'beg-meil', 'mousterlin', 'ile-saint-nicolas', 'port-la-foret'],
+  },
+  {
+    id: 'loctudy',
+    name: 'Loctudy',
+    tideSite: 'concarneau',
+    lat: 47.8272,
+    lon: -4.1661,
+    cameraIds: ['loctudy-perdrix'],
+  },
+  {
+    id: 'guidel',
+    name: 'Guidel',
+    tideSite: 'lorient',
+    lat: 47.7850,
+    lon: -3.5256,
+    cameraIds: ['guidel-port'],
   },
   {
     id: 'carnac',
@@ -21,12 +37,20 @@ export const locations = [
     ],
   },
   {
+    id: 'quiberon',
+    name: 'Quiberon',
+    tideSite: 'lorient',
+    lat: 47.4860,
+    lon: -3.1213,
+    cameraIds: ['quiberon-grande-plage', 'quiberon-haliguen'],
+  },
+  {
     id: 'pornichet',
     name: 'Pornichet',
     tideSite: 'lecroisic',
     lat: 47.2645,
     lon: -2.3449,
-    windguruStation: 5579, // GlissEvolution – Port de Pornichet / La Baule, Windbird 1413
+    windguruStation: 5579,
     cameraIds: ['pornichet-plage', 'pornichet-surf'],
   },
 ]

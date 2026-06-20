@@ -1,25 +1,25 @@
 <template>
   <div class="text-sm">
     <template v-if="loading">
-      <span class="text-gray-500">Vent…</span>
+      <span class="text-[12px]" style="color: #c7c7cc">Chargement…</span>
     </template>
     <template v-else-if="error">
-      <span class="text-red-400 text-xs">{{ error }}</span>
+      <span class="text-[12px]" style="color: #ff3b30">{{ error }}</span>
     </template>
     <template v-else>
       <div class="flex items-baseline gap-2">
         <span
-          class="text-lg leading-none"
-          :style="arrowStyle"
+          class="text-base leading-none"
+          :style="{ display: 'inline-block', transform: `rotate(${windDeg}deg)`, color: '#86868b' }"
           aria-hidden="true"
         >↑</span>
-        <span class="text-2xl font-semibold text-green-300">{{ wind.speed }} kn</span>
-        <span class="text-xs text-gray-400">{{ compass }}</span>
+        <span class="text-xl font-semibold leading-none" style="color: #007AFF">{{ wind.speed }}<span class="text-[11px] font-medium ml-0.5" style="color: #86868b">kn</span></span>
+        <span class="text-[11px] font-medium" style="color: #86868b">{{ compass }}</span>
       </div>
-      <div class="mt-1 text-xs text-gray-400">
-        Rafales <span class="text-white">{{ wind.gusts }} kn</span>
-        · Bf {{ bft }}
-        <span class="ml-1 opacity-50">{{ wind.source }}</span>
+      <div class="mt-1 text-[11px]" style="color: #86868b">
+        Raf. <span class="font-semibold" style="color: #1d1d1f">{{ wind.gusts }} kn</span>
+        <span class="mx-1 opacity-40">·</span>Bf {{ bft }}
+        <span class="ml-1 opacity-40">{{ wind.source }}</span>
       </div>
     </template>
   </div>
@@ -36,8 +36,7 @@ const props = defineProps({
 const wind = ref(null)
 const loading = ref(true)
 const error = ref(null)
-
-const REFRESH_MS = 5 * 60 * 1000 // Windguru stations se mettent à jour fréquemment
+const REFRESH_MS = 5 * 60 * 1000
 let timer = null
 
 async function load() {
@@ -51,18 +50,13 @@ async function load() {
   }
 }
 
-onMounted(() => {
-  load()
-  timer = setInterval(load, REFRESH_MS)
-})
+onMounted(() => { load(); timer = setInterval(load, REFRESH_MS) })
 onUnmounted(() => clearInterval(timer))
 
 const compass = computed(() => wind.value ? degToCompass(wind.value.direction) : '')
 const bft = computed(() => wind.value ? beaufort(wind.value.speed) : '')
-
-const arrowStyle = computed(() => {
+const windDeg = computed(() => {
   const d = Number(wind.value?.direction)
-  const deg = Number.isFinite(d) ? Math.round(d) % 360 : 0
-  return { display: 'inline-block', transform: `rotate(${deg}deg)` }
+  return Number.isFinite(d) ? Math.round(d) % 360 : 0
 })
 </script>

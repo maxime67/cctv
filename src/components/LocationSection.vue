@@ -1,16 +1,23 @@
 <template>
   <section>
-    <!-- Zone header: nom + marée + vent -->
-    <div class="flex flex-wrap items-start justify-between gap-4 mb-3 px-1">
-      <h2 class="text-lg font-semibold text-gray-100">{{ location.name }}</h2>
+    <!-- Section header -->
+    <div class="flex flex-wrap items-end justify-between gap-4 mb-5">
       <div>
-        <p class="text-xs text-gray-500 mb-1 uppercase tracking-wider">Vent</p>
+        <h2 class="text-xl font-semibold tracking-tight" style="color: #1d1d1f">
+          {{ location.name }}
+        </h2>
+        <div class="mt-0.5 h-[2px] w-8 rounded-full" style="background: linear-gradient(90deg, #38bdf8, #0ea5e9)" />
+      </div>
+
+      <!-- Wind badge -->
+      <div class="glass rounded-xl px-4 py-2.5">
+        <p class="text-[10px] font-semibold uppercase tracking-widest mb-1" style="color: #86868b">Vent</p>
         <WindWidget :location="location" />
       </div>
     </div>
 
-    <!-- Cameras for this location -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
+    <!-- Camera grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
       <WebcamTile v-for="camera in cameras" :key="camera.id" :camera="camera" />
     </div>
   </section>

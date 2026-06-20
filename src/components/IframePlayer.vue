@@ -10,11 +10,10 @@
       loading="lazy"
       sandbox="allow-same-origin allow-scripts allow-presentation"
     />
-    <!-- Blocks platform UI interaction; click opens the expand overlay -->
+    <!-- Invisible click overlay to capture expand event when not interactive -->
     <div
-      v-if="crop > 0"
-      class="absolute inset-0 z-10 cursor-zoom-in"
-      @click="emit('expand')"
+      v-if="!interactive"
+      class="absolute inset-0 z-10"
     />
   </div>
 </template>
@@ -22,13 +21,11 @@
 <script setup>
 import { computed } from 'vue'
 
-const emit = defineEmits(['expand'])
-
 const props = defineProps({
   src: { type: String, required: true },
   title: { type: String, required: true },
-  // Percentage (0–20) to crop from each edge to hide corner overlays
-  crop: { type: Number, default: 8 },
+  crop: { type: Number, default: 15 },
+  interactive: { type: Boolean, default: false },
 })
 
 const iframeStyle = computed(() => {

@@ -1,9 +1,9 @@
 <template>
-  <div class="bg-gray-900 rounded-xl overflow-hidden border border-gray-800">
-    <IframePlayer :src="camera.embedUrl" :title="camera.name" @expand="expanded = true" />
-    <div class="px-3 py-2">
-      <p class="text-sm font-medium text-gray-100">{{ camera.name }}</p>
-      <p class="text-xs text-gray-500">{{ camera.location }}</p>
+  <div class="glass cam-tile rounded-2xl overflow-hidden cursor-zoom-in" @click="expanded = true">
+    <IframePlayer :src="camera.embedUrl" :title="camera.name" />
+    <div class="px-4 py-3">
+      <p class="text-[13px] font-semibold leading-snug" style="color: #1d1d1f">{{ camera.name }}</p>
+      <p class="text-[11px] mt-0.5" style="color: #86868b">{{ camera.location }}</p>
     </div>
   </div>
 
@@ -11,24 +11,36 @@
     <Transition name="overlay">
       <div
         v-if="expanded"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4"
+        style="background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px)"
         @click.self="expanded = false"
         @keydown.esc.window="expanded = false"
       >
-        <div class="relative w-full max-w-5xl">
-          <button
-            class="absolute -top-9 right-0 text-gray-300 hover:text-white text-sm"
-            @click="expanded = false"
-          >
-            Fermer ✕
-          </button>
-          <div class="rounded-xl overflow-hidden shadow-2xl">
-            <IframePlayer :src="camera.embedUrl" :title="camera.name" :crop="0" />
+        <Transition name="modal">
+          <div v-if="expanded" class="relative w-full max-w-5xl">
+            <!-- Close button -->
+            <button
+              class="absolute -top-11 right-0 flex items-center gap-1.5 text-white/80 hover:text-white transition-colors text-sm font-medium"
+              @click="expanded = false"
+            >
+              <span class="text-[18px] leading-none font-light">✕</span>
+              Fermer
+            </button>
+
+            <!-- Expanded player -->
+            <div class="rounded-2xl overflow-hidden"
+                 style="box-shadow: 0 32px 80px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.2)">
+              <IframePlayer :src="camera.embedUrl" :title="camera.name" :crop="15" :interactive="true" />
+            </div>
+
+            <!-- Caption -->
+            <p class="mt-3 text-center text-sm font-medium text-white/70">
+              {{ camera.name }}
+              <span class="mx-1.5 opacity-40">·</span>
+              {{ camera.location }}
+            </p>
           </div>
-          <p class="mt-2 text-center text-sm font-medium text-gray-300">
-            {{ camera.name }} — {{ camera.location }}
-          </p>
-        </div>
+        </Transition>
       </div>
     </Transition>
   </Teleport>
@@ -39,22 +51,8 @@ import { ref } from 'vue'
 import IframePlayer from './IframePlayer.vue'
 
 defineProps({
-  camera: {
-    type: Object,
-    required: true,
-  },
+  camera: { type: Object, required: true },
 })
 
 const expanded = ref(false)
 </script>
-
-<style scoped>
-.overlay-enter-active,
-.overlay-leave-active {
-  transition: opacity 0.2s ease;
-}
-.overlay-enter-from,
-.overlay-leave-to {
-  opacity: 0;
-}
-</style>
