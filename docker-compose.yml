@@ -1,0 +1,11 @@
+services:
+  cctv:
+    build:
+      context: .
+      args:
+        VITE_MAREE_API_KEY: ${VITE_MAREE_API_KEY}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:80"   # Cloudflared pointe sur ce port
+    env_file:
+      - .env
