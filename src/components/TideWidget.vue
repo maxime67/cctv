@@ -8,13 +8,12 @@
         <span class="text-lg font-semibold text-blue-300">{{ coef }}</span>
         <span class="text-xs text-gray-500">coef</span>
       </div>
-      <div class="mt-1 space-y-0.5">
-        <div v-for="e in tides" :key="e.time.getTime()" class="flex gap-2 text-xs">
+      <div class="mt-1 grid grid-cols-2 gap-x-3 gap-y-0.5">
+        <div v-for="e in tides" :key="e.time.getTime()" class="flex gap-1.5 text-xs">
           <span :class="e.type === 'PM' ? 'text-blue-400' : 'text-gray-400'">
             {{ e.type }}
           </span>
           <span class="text-white font-mono">{{ fmt(e.time) }}</span>
-          <span class="text-gray-400">{{ e.height.toFixed(2) }}m</span>
         </div>
       </div>
     </template>
@@ -34,11 +33,12 @@ const { extrema, coef } = getDayTides(props.siteId)
 const tides = computed(() => extrema)
 
 function fmt(date) {
-  return date.toLocaleTimeString('fr-FR', {
+  const [h, m] = date.toLocaleTimeString('fr-FR', {
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
     timeZone: 'Europe/Paris',
-  })
+  }).split(':')
+  return `${h}h${m}`
 }
 </script>

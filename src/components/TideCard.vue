@@ -13,7 +13,7 @@
       <div class="flex-1 min-w-0">
         <p class="text-xs text-gray-500 uppercase tracking-wider mb-2">Marées du jour</p>
         <template v-if="tides.length">
-          <div class="flex flex-wrap gap-x-6 gap-y-1">
+          <div class="grid grid-cols-2 gap-x-6 gap-y-1">
             <div
               v-for="e in tides"
               :key="e.time.getTime()"
@@ -24,7 +24,6 @@
                 :class="e.type === 'PM' ? 'text-blue-400' : 'text-gray-400'"
               >{{ e.type }}</span>
               <span class="text-sm font-mono text-white">{{ fmt(e.time) }}</span>
-              <span class="text-xs text-gray-400">{{ e.height.toFixed(2) }} m</span>
             </div>
           </div>
         </template>
@@ -50,12 +49,13 @@ const { extrema, coef } = getDayTides('concarneau')
 const tides = computed(() => extrema)
 
 function fmt(date) {
-  return date.toLocaleTimeString('fr-FR', {
+  const [h, m] = date.toLocaleTimeString('fr-FR', {
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
     timeZone: 'Europe/Paris',
-  })
+  }).split(':')
+  return `${h}h${m}`
 }
 
 const trendArrow = computed(() => {
