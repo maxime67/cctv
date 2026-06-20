@@ -19,13 +19,13 @@ export async function fetchWindguru(stationId) {
   const d = await res.json()
   if (d.return === 'error') throw new Error(`Windguru: ${d.message}`)
 
-  return {
-    speed: Math.round(d.wind_avg * 10) / 10,
-    gusts: Math.round(d.wind_max * 10) / 10,
-    direction: d.wind_direction,
-    time: d.datetime,
-    source: 'Windguru',
+  const speed = Math.round(Number(d.wind_avg) * 10) / 10
+  const gusts = Math.round(Number(d.wind_max) * 10) / 10
+  const direction = Number(d.wind_direction)
+  if (!Number.isFinite(speed) || !Number.isFinite(gusts) || !Number.isFinite(direction)) {
+    throw new Error('Windguru: données invalides')
   }
+  return { speed, gusts, direction, time: d.datetime, source: 'Windguru' }
 }
 
 /**
@@ -49,13 +49,13 @@ export async function fetchOpenMeteo(lat, lon) {
   const json = await res.json()
   const c = json.current
 
-  return {
-    speed: c.wind_speed_10m,
-    gusts: c.wind_gusts_10m,
-    direction: c.wind_direction_10m,
-    time: c.time,
-    source: 'Open-Meteo',
+  const speed = Number(c.wind_speed_10m)
+  const gusts = Number(c.wind_gusts_10m)
+  const direction = Number(c.wind_direction_10m)
+  if (!Number.isFinite(speed) || !Number.isFinite(gusts) || !Number.isFinite(direction)) {
+    throw new Error('Open-Meteo: données invalides')
   }
+  return { speed, gusts, direction, time: c.time, source: 'Open-Meteo' }
 }
 
 /**

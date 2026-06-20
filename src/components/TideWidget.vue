@@ -37,6 +37,7 @@ function fmt(date) {
   return date.toLocaleTimeString('fr-FR', {
     hour: '2-digit',
     minute: '2-digit',
+    hour12: false,
     timeZone: 'Europe/Paris',
   })
 }

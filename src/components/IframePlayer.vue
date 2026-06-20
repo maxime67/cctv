@@ -8,6 +8,7 @@
       frameborder="0"
       allowfullscreen
       loading="lazy"
+      sandbox="allow-same-origin allow-scripts allow-presentation"
     />
     <!-- Blocks platform UI interaction; click opens the expand overlay -->
     <div

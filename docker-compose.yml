@@ -4,6 +4,14 @@ services:
       context: .
     restart: unless-stopped
     ports:
-      - "127.0.0.1:8080:80"   # Cloudflared pointe sur ce port
-    env_file:
-      - .env
+      - "127.0.0.1:8080:8080"   # Cloudflared pointe sur ce port
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/index.html"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 128M

@@ -3,15 +3,9 @@
     <!-- Zone header: nom + marée + vent -->
     <div class="flex flex-wrap items-start justify-between gap-4 mb-3 px-1">
       <h2 class="text-lg font-semibold text-gray-100">{{ location.name }}</h2>
-      <div class="flex gap-6">
-        <div>
-          <p class="text-xs text-gray-500 mb-1 uppercase tracking-wider">Marée</p>
-          <TideWidget :site-id="location.tideSite" />
-        </div>
-        <div>
-          <p class="text-xs text-gray-500 mb-1 uppercase tracking-wider">Vent</p>
-          <WindWidget :location="location" />
-        </div>
+      <div>
+        <p class="text-xs text-gray-500 mb-1 uppercase tracking-wider">Vent</p>
+        <WindWidget :location="location" />
       </div>
     </div>
 
@@ -25,7 +19,6 @@
 <script setup>
 import { computed } from 'vue'
 import { cameras as allCameras } from '../config/cameras.js'
-import TideWidget from './TideWidget.vue'
 import WindWidget from './WindWidget.vue'
 import WebcamTile from './WebcamTile.vue'
 

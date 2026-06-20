@@ -10,7 +10,7 @@
       <div class="flex items-baseline gap-2">
         <span
           class="text-lg leading-none"
-          :style="{ display: 'inline-block', transform: `rotate(${wind.direction}deg)` }"
+          :style="arrowStyle"
           aria-hidden="true"
         >↑</span>
         <span class="text-2xl font-semibold text-green-300">{{ wind.speed }} kn</span>
@@ -59,4 +59,10 @@ onUnmounted(() => clearInterval(timer))
 
 const compass = computed(() => wind.value ? degToCompass(wind.value.direction) : '')
 const bft = computed(() => wind.value ? beaufort(wind.value.speed) : '')
+
+const arrowStyle = computed(() => {
+  const d = Number(wind.value?.direction)
+  const deg = Number.isFinite(d) ? Math.round(d) % 360 : 0
+  return { display: 'inline-block', transform: `rotate(${deg}deg)` }
+})
 </script>
