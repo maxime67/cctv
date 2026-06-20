@@ -5,9 +5,6 @@ WORKDIR /app
 COPY package.json ./
 RUN npm install
 COPY . .
-# VITE_MAREE_API_KEY est injectée via --build-arg au moment du docker build
-ARG VITE_MAREE_API_KEY
-ENV VITE_MAREE_API_KEY=$VITE_MAREE_API_KEY
 RUN npm run build
 
 # ── Serve ────────────────────────────────────────────────────────────────────
