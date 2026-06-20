@@ -12,7 +12,7 @@ FROM nginx:stable-alpine
 
 # Remove the root-only user directive; redirect pid to /tmp for non-root
 RUN sed -i '/^user /d' /etc/nginx/nginx.conf \
-    && sed -i 's|/var/run/nginx.pid|/tmp/nginx.pid|' /etc/nginx/nginx.conf \
+    && sed -i 's|pid\s*/[^;]*;|pid /tmp/nginx.pid;|' /etc/nginx/nginx.conf \
     && chown -R nginx:nginx /var/cache/nginx /var/log/nginx
 
 COPY --from=build /app/dist /usr/share/nginx/html
